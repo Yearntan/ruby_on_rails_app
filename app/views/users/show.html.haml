@@ -1,0 +1,57 @@
+- # Show user details
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header User Details
+
+      %ul.list-group
+        %li.list-group-item
+          %strong Name:
+          = @user.name
+        %li.list-group-item
+          %strong Email:
+          = @user.email
+        %li.list-group-item
+          %strong Pronouns:
+          = @user.pronouns
+        %li.list-group-item
+          %strong Role:
+          = @user.role
+
+      - if @user.role == 'young_person'
+        .card-header Current Supporter Details
+        - if @current_supporters.any?
+          %ul.list-group
+            - @current_supporters.each do |supporter, management|
+              %li.list-group-item
+                %strong Name:
+                = supporter.user.name
+              %li.list-group-item
+                %strong Email:
+                = supporter.user.email
+              %li.list-group-item
+                %strong Commit:
+                = management.commit
+        - else
+          %p No current supporter assigned now
+
+        .card-header Previous Supporter Details
+        - if @previous_supporters.any?
+          %ul.list-group
+            - @previous_supporters.each do |supporter, management|
+              %li.list-group-item
+                %strong Name:
+                = supporter.user.name
+              %li.list-group-item
+                %strong Email:
+                = supporter.user.email
+              %li.list-group-item
+                %strong Commit:
+                = management.commit
+              %li.list-group-item
+                %strong Date Ended:
+                = management.updated_at.strftime("%Y-%m-%d")
+        - else
+          %p No previous supporter assigned before
+      .form-actions
+        = link_to 'Back', users_path, class: 'btn btn-dark ms-auto'

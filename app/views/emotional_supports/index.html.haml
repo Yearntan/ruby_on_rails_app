@@ -1,0 +1,28 @@
+- # This file is part of the views section for emotional supports in a healthcare application.
+- # It lists emotional supports for patients, allowing supporters to update the status of supports.
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Requests
+
+  %table.table
+    %thead
+      %tr
+        %th Patient
+        %th Description
+        %th Date Submitted
+        %th Status
+        %th
+    %tbody
+      - @emotional_supports.each do |emotional_support|
+        - user = User.find_by(id: emotional_support.user_id)
+        - young_person_management = YoungPersonManagement.find_by(young_person_id: user&.id)
+        - if young_person_management && young_person_management.supporter_id == current_user.id
+          %tr
+            %td= user&.name
+            %td= emotional_support.content
+            %td= emotional_support.created_at
+            %td= emotional_support.status
+            %td
+              .btn-toolbar.float-end
+                - if emotional_support.status == false
+                  = link_to 'Complete', complete_emotional_support_path(emotional_support), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

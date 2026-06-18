@@ -1,0 +1,15 @@
+- # Structure for a form within a card, centrally aligned, to create a new bubble
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header New Bubble
+      = simple_form_for(@bubble) do |f|
+        .card-body
+          = f.input :name, label: 'Bubble Name', input_html: { class: 'form-control' }
+          %label{ for: 'bubble_content' } Write description here:
+          = f.input :content, placeholder: 'Please write here', id: 'bubble_content', class: 'form-control', style: 'width: 100%; height: 200px;'
+
+        .card-footer.d-flex
+          = f.button :submit, 'Create', class: 'btn btn-success mt-3'
+          = link_to 'Back', bubbles_path, class: 'btn btn-dark mt-3'

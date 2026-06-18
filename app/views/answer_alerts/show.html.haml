@@ -1,0 +1,22 @@
+-# View template for displaying details of a specific answer alert
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Alert Details
+      %p
+        %strong Alert Message:
+        = @answer_alert.commit
+      %p
+        %strong Related Answer ID:
+        = Answer.find_by(id: @answer_alert.answer_id).content
+      %p
+        %strong Created At:
+        = @answer_alert.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      %p
+        %strong Updated At:
+        = @answer_alert.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        .form-actions
+          = link_to 'Back', answer_alerts_path, class: 'btn btn-dark'
+
+

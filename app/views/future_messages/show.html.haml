@@ -1,0 +1,30 @@
+- # This view template displays detailed information about a specific future message.
+- # It is designed to provide different information based on the user's role.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Future Message details
+      .card-body
+        %dl.row.mb-0
+          - if current_user && current_user.role == 'admin' 
+            %dt.col-md-3 User:
+            %dd.col-md-9= @future_message.young_person.user.name
+          %dt.col-md-3 Content:
+          %dd.col-md-9= @future_message.content
+          %dt.col-md-3 Published at:
+          %dd.col-md-9= @future_message.published_at
+          %dt.col-md-3 Selected bubbles:
+          - @bubbles.each do |bubble|
+            %dd.col-md-9= bubble.name
+        
+      .card-footer.d-flex
+        - if current_user && current_user.role == 'young_person' 
+          = link_to 'Edit', edit_future_message_path(@future_message), class: 'btn btn-outline-secondary'
+          = link_to 'Back', future_messages_path, class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'supporter'
+          = link_to 'Back', future_messages_path(user_id: @future_message.user_id), class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'admin' 
+          = link_to 'Back',future_messages_path, class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'loved_one' 
+          = link_to 'Back',future_messages_path, class: 'btn btn-dark ms-auto'

@@ -1,0 +1,27 @@
+-# Card layout to list bubbles with responsive features
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Bubbles
+    - if current_user.role == 'young_person'
+      = link_to 'New Bubble', new_bubble_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Total member
+    %tbody
+      - @bubbles.each do |bubble|
+        %tr
+          %td= bubble.name
+          %td= bubble.members.count
+          %td
+            = link_to 'Show', bubble_path(bubble), class: 'btn btn-outline-info'
+            - if current_user.role == 'supporter'
+              = link_to 'Back', bubble_path(bubble), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-dark'
+            - if current_user.role == 'young_person'
+              = link_to 'Delete', bubble_path(bubble), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger'
+              = link_to 'Edit Bubble', edit_bubble_path(bubble), class: 'btn btn-outline-secondary'
+              = link_to 'Manage Members', manage_members_bubble_path(bubble), class: 'btn btn-primary'
+              = link_to 'Add Loved One', invite_loved_one_bubble_path(bubble), class: 'btn btn-outline-success'

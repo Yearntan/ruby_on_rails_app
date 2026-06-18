@@ -1,0 +1,50 @@
+- # This section renders a table within a card component that lists questions and related actions based on the current user's role.
+
+.card
+  .card-body
+    .table-responsive
+      %table.table
+        %thead
+          %tr
+            %th Question
+            - if current_user && current_user.role != 'young_person'
+              %th Sensitivity
+            - if current_user && current_user.role == 'admin'
+              %th Active
+              = link_to 'New Question', new_question_path, class: 'btn btn-outline-info'
+        %tbody
+          - if current_user && current_user.role == 'young_person'
+            - @questions.each do |question|
+              %tr
+                %td= question.content
+                %td
+                  .btn-toolbar.float-end
+                    - if Answer.find_by(question_id: question.id, user_id: current_user.id).present?
+                      = link_to 'Show', question_answer_path(question, question.answers.first), class: 'btn btn-outline-info'
+                      = link_to 'Edit Answer', edit_question_answer_path(question, question.answers.first), class: 'btn btn-outline-warning'
+                    - else
+                      = link_to 'Show', question, class: 'btn btn-outline-info'
+                      - if current_user && current_user.role == 'young_person'
+                        = link_to 'Answer', new_question_answer_path(question), class: 'btn btn-outline-secondary'
+          - else
+            - @questions.each do |question|
+              %tr
+                %td= question.content
+                %td= question.sensitivity ? 'Yes' : 'No'
+                - if current_user && current_user.role == 'admin'
+                  %td= question.active ? 'Yes' : 'No'
+                %td
+                  .btn-toolbar.float-end
+                    = link_to 'Show', question, class: 'btn btn-outline-info btn-sm'
+                    - if current_user && current_user.role == 'admin'
+                      = link_to 'Edit', edit_question_path(question), class: 'btn btn-bd-primary'
+                      - if question.active?
+                        = link_to 'Deactivate', deactivate_question_path(question), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-warning'
+                      -else
+                        = link_to 'Activate', activate_question_path(question), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-success'
+                    - else 
+                      = link_to 'Request Change', new_question_change_request_path(question), class: 'btn btn-outline-warning'
+
+
+
+

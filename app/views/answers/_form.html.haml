@@ -1,0 +1,34 @@
+= simple_form_for [@question, @answer], html: { multipart: true, id: 'answer-form' } do |f|
+  .card-body
+    = f.input :question_id, as: :hidden, input_html: { value: @question.id }
+    = f.input :content, as: :text, label: 'Your Answer', input_html: { rows: 4 }
+
+    - if @bubbles.present?
+      - @bubbles.each do |bubble|
+        .form-check
+          = f.check_box :bubble_ids, { multiple: true, class: 'form-check-input' }, bubble.id, nil
+          = f.label :bubble_ids, bubble.name, class: 'form-check-label'
+    - else
+      %p No bubbles available.
+
+    #media-preview-container
+      - if @answer.media.attached?
+        %h5 Attached Media
+        - @answer.media.each do |media_attachment|
+          .attached-media
+            - if media_attachment.image?
+              = image_tag(media_attachment, class: 'img-fluid')
+            - elsif media_attachment.video?
+              %video{controls: true, class: 'img-fluid'}
+                %source{src: url_for(media_attachment), type: media_attachment.content_type}
+            - elsif media_attachment.audio?
+              %audio{controls: true}
+                %source{src: url_for(media_attachment), type: media_attachment.content_type}
+            = link_to 'Remove', remove_media_answer_path(id: @answer.id, media_id: media_attachment.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+    = file_field_tag 'media[]', multiple: true, accept: 'image/*,video/*,audio/*', id: 'media-input-visual', class: 'form-control-file', style: 'display:none;'
+    %button.btn.btn-secondary{ type: 'button', id: 'media-select-btn' } Choose Files
+
+  .card-footer.d-flex
+    = f.button :submit, 'Save', class: 'btn btn-success'
+    = link_to 'Back', questions_path, class: 'btn btn-dark'

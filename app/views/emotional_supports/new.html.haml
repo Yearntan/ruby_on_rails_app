@@ -1,0 +1,17 @@
+-# app/views/emotional_supports/new.html.haml
+- # This file is part of the views for creating new emotional supports within a healthcare application.
+- # It provides a form for users to request new emotional support services.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Emotional Support Request
+      = simple_form_for @emotional_support do |f|
+        .card-body
+          = f.error_notification
+
+          .form-inputs
+            = f.input :content, as: :text, required: true, label: 'Request', input_html: { rows: 4 }
+
+          .form-actions
+            = f.button :submit, 'Submit Request', class: 'btn btn-success'
+            = link_to 'Back', questions_path, class: 'btn btn-dark ms-auto'

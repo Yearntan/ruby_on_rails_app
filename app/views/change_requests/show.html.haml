@@ -1,0 +1,14 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Request Details
+  
+      %p
+        %strong Content:
+        = @change_request.content
+
+      %p
+        %strong Status:
+        = @change_request.status
+      .form-actions
+        = link_to 'Back', change_requests_path, class: 'btn btn-dark'

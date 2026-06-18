@@ -1,0 +1,16 @@
+= simple_form_for(@future_message) do |f|
+  .card-body
+    = f.input :content, wrapper_html: { class: 'mb-3' }, label: "Future message"
+    = f.input :published_at, as: :datetime, wrapper_html: { class: 'mb-3' }, label: "When to publish?"
+
+    - if @bubbles.present?
+      - @bubbles.each do |bubble|
+        .form-check
+          = f.check_box :bubble_ids, { multiple: true, class: 'form-check-input' }, bubble.id, nil
+          = f.label "bubble_#{bubble.id}", bubble.name, class: 'form-check-label'
+    - else
+      %p No bubbles available.
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' } Save
+    = link_to 'Back', future_messages_path, class: 'btn btn-dark'

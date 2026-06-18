@@ -1,0 +1,9 @@
+-# send_contact_email.text.haml
+
+New Contact Message
+
+Name: #{ @info[:name] }
+Email: #{ @info[:email] }
+Message:
+:preserve
+  #{@info[:message]}

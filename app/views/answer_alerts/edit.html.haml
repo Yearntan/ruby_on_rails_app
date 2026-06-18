@@ -1,0 +1,15 @@
+-# app/views/answer_alerts/new.html.haml
+- # This is the main Haml template for creating a new answer alert.
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Answer Alert 
+      = simple_form_for @answer_alert do |f|
+        = f.error_notification
+        = f.input :commit, as: :text, required: true, label: 'Your alert', input_html: { rows: 4 }
+        = f.input :answer_id, as: :hidden, input_html: { value: @answer_alert.answer_id }
+        = f.button :submit, 'Update', class: 'btn btn-success'
+        = link_to 'Back', answers_path, class: 'btn btn-dark ms-auto'
+
+

@@ -1,0 +1,14 @@
+- # This section of the HAML file is used to display detailed information about a specific question category within a card layout.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Question Category Details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Name:
+          %dd.col-md-9= @ques_category.name
+          %dt.col-md-3 Active:
+          %dd.col-md-9= @ques_category.active
+      .card-footer.d-flex
+        = link_to 'Back', ques_categories_path, class: 'btn btn-dark ms-auto'

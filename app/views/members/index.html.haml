@@ -1,0 +1,28 @@
+<!-- Members Page: Displays a list of members with options to show, edit, or delete each member -->
+<h1>Members</h1>
+<table>
+  <thead>
+    <!-- Table header defining the data columns for member details -->
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Actions</th> <!-- Column for action links like show, edit, and destroy -->
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Loop through each member in @members provided by the controller -->
+    <% @members.each do |member| %>
+      <tr>
+        <td><%= member.name %></td> <!-- Display the member's name -->
+        <td><%= member.email %></td> <!-- Display the member's email -->
+        <td>
+          <%= link_to 'Show', [:api, :v1, member] %> <!-- Link to view member details -->
+          <%= link_to 'Edit', edit_api_v1_member_path(member) %> <!-- Link to edit member details -->
+          <%= link_to 'Destroy', api_v1_member_path(member), method: :delete, data: { confirm: 'Are you sure?' } %> <!-- Link to delete member with a confirmation prompt -->
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<!-- Link to navigate to the form for adding a new member -->
+<%= link_to 'New Member', new_api_v1_member_path %>

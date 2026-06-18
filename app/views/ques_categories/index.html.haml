@@ -1,0 +1,24 @@
+- # Layout for displaying a list of question categories with management options.
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Question Categories
+
+    = link_to 'New Question Category', new_ques_category_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Active
+        %th
+    %tbody
+      - @ques_categories.each do |ques_category|
+        %tr
+          %td= ques_category.name
+          %td= ques_category.active ? 'Yes' : 'No'
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', ques_category, class: 'btn btn-outline-info btn-sm'
+              = link_to 'Edit', edit_ques_category_path(ques_category), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', ques_category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

@@ -1,0 +1,36 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Future Message Alerts  
+
+  %table.table  
+    %thead  
+      %tr  
+        %th Young Person Name 
+        %th Future Message 
+        %th Alert Commit  
+        %th Active 
+        %th Actions  
+    %tbody 
+      - @future_message_alerts.each do |alert|
+        %tr  
+          %td= User.find_by(id: FutureMessage.find_by(id: alert.future_message_id).user_id).name
+          - # Displays the name of the user associated with the future message. 
+          - # This involves querying the database twice; consider optimizing.
+
+          %td= FutureMessage.find_by(id: alert.future_message_id).content
+          - # Displays the content of the future message associated with the alert.
+
+          %td= alert.commit
+          - # Displays the commit string of the alert, describing the alert's condition or purpose.
+
+          %td= alert.active ? 'Yes' : 'No'
+          - # Displays whether the alert is active or not as 'Yes' or 'No'.
+
+          %td
+            = link_to 'Show', future_message_alert_path(alert), class: 'btn btn-outline-info'
+            - # Link to view details of the alert. Styled with Bootstrap to be outlined and informational.
+
+            - if alert.active?
+              = link_to 'Delete', deactivate_future_message_alert_path(alert), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-warning'
+              - # Provides a link to deactivate the alert if it is currently active. 
+              - # Includes a confirmation prompt to prevent accidental deletions.

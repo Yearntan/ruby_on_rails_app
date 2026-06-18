@@ -1,0 +1,36 @@
+-# Central layout for displaying detailed information about an answer within a card structure
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        %h5= "Answer for question: #{Question.find_by(id: @answer.question_id).content}"
+      .card-body
+        %p= @answer.content
+        - if not current_user.loved_one?
+          %h5 Selected Bubble 
+          %ul.list-group
+            - @answer.bubbles.each do |bubble|
+              %li.list-group-item= bubble.name
+      - if @answer.media.attached?
+        %h5 Attached Media
+        - @answer.media.each do |media_attachment|
+          .attached-media
+            - if media_attachment.image?
+              = image_tag(media_attachment, class: 'img-fluid')
+            - elsif media_attachment.video?
+              %video{controls: true, class: 'img-fluid'}
+                %source{src: url_for(media_attachment), type: media_attachment.content_type}
+            - elsif media_attachment.audio?
+              %audio{controls: true}
+                %source{src: url_for(media_attachment), type: media_attachment.content_type}
+      .card-footer.d-flex
+        - if current_user && current_user.role == 'young_person' 
+          = link_to 'Edit', edit_question_answer_path(@answer.question, @answer), class: 'btn btn-outline-secondary'
+          = link_to 'Back', questions_path, class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'supporter' 
+          = link_to 'Back',answers_path(user_id: @answer.user_id), class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'admin' 
+          = link_to 'Back',answers_path, class: 'btn btn-dark ms-auto'
+        - if current_user && current_user.role == 'loved_one' 
+          = link_to 'Back',answers_path, class: 'btn btn-dark ms-auto'
+        

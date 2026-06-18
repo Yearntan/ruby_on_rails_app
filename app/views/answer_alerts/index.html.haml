@@ -1,0 +1,26 @@
+
+- # Layout for the Answer Alerts page, displays alerts associated with answers in a tabular format
+.card
+  .card-header.d-flex.align-items-center
+    %span Answer Alerts
+
+- # Table to list all answer details
+%table.table
+  %thead
+    %tr
+      %th Answer Content
+      %th Alert Commit
+      %th User
+      %th Active
+      %th Actions
+  %tbody
+    - @answer_alerts.each do |alert|
+      %tr
+        %td= alert.answer.content
+        %td= alert.commit
+        %td= User.find_by(id: Answer.find_by(id: alert.answer_id).user_id ).name
+        %td= alert.active
+        %td
+          = link_to 'Show', answer_alert_path(alert), class: 'btn btn-outline-info'
+          - if alert.active?
+            = link_to 'Delete', deactivate_answer_alert_path(alert), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger'

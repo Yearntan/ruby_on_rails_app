@@ -1,0 +1,42 @@
+- # This view displays a list of future messages and provides user-specific actions based on their roles.
+- # It uses a responsive table format and dynamic links for operations like creating, showing, and editing messages.
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Future Messages
+    - if current_user.young_person?
+      = link_to 'New Future Message', new_future_message_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Future messages
+        %th Time to publish
+        - if current_user.admin?
+          %th User Email
+        - if current_user.loved_one?
+          %th User Name
+        %th Actions
+        %th
+    %tbody
+      - @future_messages.each do |future_message|
+        %tr
+          %td= future_message.content
+          %td= future_message.published_at
+          - if current_user.admin?
+            %td= User.find_by(id: future_message.user_id ).email
+          - if current_user.loved_one?
+            %td= User.find_by(id: future_message.user_id ).name
+          %td
+            .btn-toolbar
+              = link_to 'Show', future_message_path(future_message), class: 'btn btn-outline-info'
+              - if current_user && current_user.role == 'admin'
+                - if not future_message.has_active_alert?
+                  = link_to 'Create Alert', new_future_message_alert_path(future_message_id: future_message.id), class: 'btn btn-outline-secondary ms-1 btn-sm'
+                - if future_message.publishable == false
+                  = link_to 'Publish', publish_future_message_path(future_message), method: :patch, class: 'btn btn-outline-success ms-1 btn-sm', data: { confirm: 'Are you sure you want to publish this message?' }
+              - if current_user.role == 'young_person'
+                = link_to 'Share', edit_future_message_path(future_message), class: 'btn btn-outline-secondary'
+                = link_to 'Destroy', future_message_path(future_message), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger'
+  .form-actions
+    - if current_user && current_user.role == 'supporter'
+      = link_to 'Back', young_person_managements_path, class: 'btn btn-dark ms-1 btn-sm'

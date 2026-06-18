@@ -1,0 +1,15 @@
+- # This layout displays detailed information about a specific question within a centered card, 
+- # and provides an edit link for admins and a back link for all users.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Question details
+      .card-body
+        %dl.row.mb-0
+        %dt.col-md-3 Name:
+        %dd.col-md-9= @question.content
+      .card-footer.d-flex
+        - if current_user && current_user == 'admin'
+          = link_to 'Edit', edit_question_path(@question), class: 'btn btn-outline-secondary'
+        = link_to 'Back', questions_path, class: 'btn btn-dark'

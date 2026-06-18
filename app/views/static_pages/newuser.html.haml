@@ -1,0 +1,16 @@
+- content_for :title, 'Register Young Person'
+
+.row.justify-content-center
+  .col-sm-6.col-lg-4
+    .card.card-light
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .card-header
+          Register Young Person
+        .card-body
+          = f.input :email, autofocus: true, required: true
+          = f.input :password, required: true
+          = f.input :password_confirmation, required: true
+        .card-footer
+          %button.btn.btn-primary{ type: :submit }
+            Sign Up
+          .mt-3= render "devise/shared/links"

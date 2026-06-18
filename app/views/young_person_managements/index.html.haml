@@ -1,0 +1,30 @@
+- # Displays a card component listing young people managed by the current user, with actionable options for each.
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Your Young People
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Total Answers
+        %th Status
+        %th Actions
+    %tbody
+      - @young_people.each do |young_person|
+        %tr
+          %td= young_person.user.name
+          %td= young_person.user.email
+          %td= young_person.answers.count
+          %td= young_person.passed_away ? 'Dead' : 'Alive'
+          %td
+            .btn-toolbar.float-end
+              = link_to 'View Answers', answers_path(user_id: young_person.user_id), class: 'btn btn-outline-info btn-sm'
+              = link_to 'View Future Messages', future_messages_path(user_id: young_person.user_id), class: 'btn btn-outline-info btn-sm'
+              = link_to 'View Bubbles', bubbles_path(user_id: young_person.user_id), class: 'btn btn-outline-info btn-sm'
+              - if young_person.passed_away == false
+                = link_to 'Change Status', passed_away_young_person_management_path(user_id: young_person.user_id), method: :patch, class: 'btn btn-outline-danger', data: { confirm: 'Are you sure? This action cannot be undone.' }
+
+

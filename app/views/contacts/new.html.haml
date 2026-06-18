@@ -1,0 +1,65 @@
+-# Contact page
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Get in Touch
+  .row
+    .col-md-6
+      %p We'd love to hear from you! If you have any questions, feedback, or inquiries, please don't hesitate to reach out to us.
+
+      %h3 Contact Information
+      %ul
+        %li
+          %strong Email:
+          %a{href: "mailto:info@example.com"} info@example.com
+        %li
+          %strong Phone:
+          (123) 456-7890
+        %li
+          %strong Address:
+          123 Main Street, City, State, ZIP
+
+      %h3 Business Hours
+      %ul
+        %li Monday - Friday: 9:00 AM - 5:00 PM
+        %li Saturday - Sunday: Closed
+
+    .col-md-6
+      %h2 Send us a Message
+      = form_with scope: :contact, url: contacts_path, local: true do |f|
+        .mb-3
+          = f.label :name, class: 'form-label'
+          = f.text_field :name, class: 'form-control', required: true
+        .mb-3
+          = f.label :email, class: 'form-label'
+          = f.email_field :email, class: 'form-control', required: true
+        .mb-3
+          = f.label :phone, class: 'form-label'
+          = f.telephone_field :phone, class: 'form-control'
+        .mb-3
+          = f.label :message, class: 'form-label'
+          = f.text_area :message, class: 'form-control', rows: 5, required: true
+        = f.submit 'Send Message', class: 'btn btn-primary'
+
+  %hr
+
+  .row
+    .col-md-6
+      %h2 Connect with Us
+      %p Follow us on social media to stay updated with the latest news and updates.
+      %ul.list-inline
+        %li.list-inline-item
+          %a{href: "https://facebook.com/example"}
+            %i.fa.fa-facebook Facebook
+        %li.list-inline-item
+          %a{href: "https://twitter.com/example"}
+            %i.fa.fa-twitter Twitter
+        %li.list-inline-item
+          %a{href: "https://instagram.com/example"}
+            %i.fa.fa-instagram Instagram
+
+  .col-md-6
+    %h2 Our Location
+    %p Here's where you can find us:
+    .embed-responsive.embed-responsive-16by9
+      %iframe.embed-responsive-item{src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2379.8492081678264!2d-1.4845092237510058!3d53.38174747207472!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48797881e28b3e81%3A0x611c9522ca2169ed!2sThe%20Diamond!5e0!3m2!1sen!2suk!4v1712763219070!5m2!1sen!2suk", width: "600", height: "450", style: "border:0;", allowfullscreen: "", loading: "lazy", referrerpolicy: "no-referrer-when-downgrade"}

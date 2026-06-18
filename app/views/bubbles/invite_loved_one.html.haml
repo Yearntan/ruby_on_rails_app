@@ -1,0 +1,20 @@
+-# app/views/bubbles/invite_loved_one.html.haml
+.card
+  .card-header.d-flex.align-items-center
+    %span Add Loved One to #{@bubble.name}
+  %p
+    Note: You can only add the member after they register the account
+
+  = form_with url: create_invite_bubble_path(@bubble), method: :post do |f|
+    .form-group
+      = f.label :email
+      = f.email_field :email, name: 'bubble_invite[email]', class: 'form-control'
+    
+    .form-group
+      = f.label :name
+      = f.text_field :name, name: 'bubble_invite[name]', class: 'form-control'
+    
+    .form-group
+      = f.submit 'Add', class: 'btn btn-primary'
+      = link_to 'Back', bubbles_path, class: 'btn btn-dark'
+

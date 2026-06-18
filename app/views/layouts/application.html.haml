@@ -1,0 +1,169 @@
+!!!
+%html{ lang: 'en-GB' }
+  %head
+    %title DigniSpace
+
+    %meta{ :'http-equiv' => "content-type", content: "text/html; charset=utf-8" }
+    %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no" }
+
+    - if content_for(:description)
+      %meta{ content: content_for(:description), name: 'description' }
+
+    %title= ["Project", content_for(:title)].compact.join(' - ')
+
+    - # Meta tags included for security
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    - # Links to webpacker pack tag specifying packs styles for css, application for javascript
+    = stylesheet_pack_tag 'styles', media: 'all'
+    = javascript_pack_tag 'application'
+    
+    %link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"}
+    %script{src: "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"}
+    %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"}
+    
+  %body.fullscreen-bg
+    %header.navbar.navbar-expand-md.navbar-no-margin-padding
+      / Responsive nabbar 
+      .container-fluid
+        = link_to '#', class: 'navbar-brand' do
+          = image_pack_tag 'images/DigniSpacelogo.png', height: 50, class: 'd-inline-block align-top', alt: 'DigniSpace logo'
+          
+        %button.navbar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#navbar-content' }, aria: { controls: 'navbar-content', expanded: 'false', label: 'Toggle navigation' } }
+          %span.navbar-toggler-icon
+        #navbar-content.navbar-collapse.collapse
+          %ul.navbar-nav.mr-auto
+            - if current_user && current_user.role == 'admin'
+              
+              .nav-item
+                = link_to users_path, class: 'active nav-link' do
+                  %i.bi-house
+                  Home
+              .nav-item
+                = link_to answers_path, class: 'active nav-link' do
+                  %i.bi-globe
+                  All Answers  
+              .nav-item
+                = link_to future_messages_path, class: 'active nav-link' do
+                  %i.bi-envelope
+                  All Messages
+              .nav-item
+                = link_to ques_categories_path, class: 'active nav-link' do
+                  %i.bi-tag
+                  Categories  
+              .nav-item
+                = link_to questions_path, class: 'active nav-link' do
+                  %i.bi-patch-question
+                  Question 
+              .nav-item
+                = link_to change_requests_path, class: 'active nav-link' do
+                  %i.bi-question-octagon
+                  Change Requests 
+              .nav-item
+                = link_to admin_invites_path, class: 'active nav-link' do
+                  %i.bi-plus
+                  Invite Dashboard  
+              .nav-item
+                = link_to new_invite_path, class: 'active nav-link' do
+                  %i.bi-plus
+                  New Invite           
+            - if current_user && current_user.role == 'supporter'
+              .nav-item
+                = link_to young_person_managements_path, class: 'active nav-link' do
+                  %i.bi-house
+                  Home
+              .nav-item
+                = link_to questions_path, class: 'active nav-link' do
+                  %i.bi-patch-question
+                  Questions
+              .nav-item
+                = link_to emotional_supports_path, class: 'active nav-link' do
+                  %i.bi-person-raised-hand
+                  Support Requests
+              .nav-item
+                = link_to answer_alerts_path, class: 'active nav-link' do
+                  %i.bi-exclamation-square
+                  Answer Alerts
+              .nav-item
+                = link_to future_message_alerts_path, class: 'active nav-link' do
+                  %i.bi-exclamation-square
+                  Message alerts
+              .nav-item
+                = link_to new_invite_path, class: 'active nav-link' do
+                  %i.bi-plus
+                  New Invite
+            - if current_user && current_user.role == 'loved_one'
+              .nav-item
+                = link_to answers_path, class: 'active nav-link' do
+                  %i.bi-house
+                  Answers
+              .nav-item
+                = link_to future_messages_path, class: 'active nav-link' do
+                  %i.bi-house
+                  Future Messages
+            - if current_user && current_user.role == 'young_person'
+              .nav-item
+                = link_to questions_path, class: 'active nav-link' do
+                  %i.bi-house
+                  Home
+              .nav-item
+                = link_to future_messages_path, class: 'active nav-link' do
+                  %i.bi-envelope
+                  Future message
+              .nav-item
+                = link_to bubbles_path, class: 'active nav-link' do
+                  %i.bi-chat-heart
+                  Bubbles
+              .nav-item
+                = link_to new_invite_path, class: 'active nav-link' do
+                  %i.bi-plus
+                  New Invite
+
+
+          %ul.navbar-nav.ml-auto
+        - if user_signed_in?
+          %li.nav-item
+            = link_to logout_path, method: :delete, class: 'custom-logout' do
+              %i.bi-box-arrow-right
+                Log out
+            = link_to edit_user_path(current_user), class: 'active nav-link' do
+              .navbar-text
+                %i.bi-person-circle
+                %span= current_user.email
+    - if flash.present?
+      .container-fluid.flash-messages.position-fixed.top-0.end-0.p-3
+        - flash.each do |message_type, message|
+          - next unless message_type == 'alert' || message_type == 'notice'
+          .alert.fade.show{ class: "alert-#{message_type == 'notice' ? 'success' : 'danger'} alert-dismissible", role: "alert" }
+            = message
+            %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
+              %span{ aria: { hidden: "true" } } ×
+            
+    
+
+    %main.main_body_layout
+      .container-fluid.some_margins
+        .container
+          = yield
+          .card-body.semi-transparent
+    %footer.no_margin.justify-content-center
+      .container-fluid.justify-content-center
+        .d-flex.p-3.justify-content-center
+          = link_to about_path, class: 'nav-link mx-3' do
+            %i.bi-info-circle
+            About Us
+          = link_to privacy_path, class: 'nav-link mx-3' do
+            %i.bi-shield-exclamation
+            Privacy
+          = link_to cookies_path, class: 'nav-link mx-3' do
+            %i.bi-cookie
+            Cookies
+          = link_to contacts_path, class: 'nav-link mx-3' do
+            %i.bi-person-lines-fill
+            Contact
+            
+- if current_user && current_user.role == 'young_person'
+  = link_to new_emotional_support_path, class: 'floating-button' do
+    Need Help?

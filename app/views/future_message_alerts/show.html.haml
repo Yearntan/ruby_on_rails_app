@@ -1,0 +1,25 @@
+- # This file is part of the views for displaying detailed information about a specific future message alert.
+- # It organizes the details in a structured format, providing clear and concise information about the alert.
+
+.row.justify-content-center  
+  .col-sm-8.col-lg-6  
+    .card
+      .card-header Alert Details  
+
+      %p  
+        %strong Alert Message: 
+        = @future_message_alert.commit  
+
+      %p 
+        %strong Created At:  
+        = @future_message_alert.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        - # Formats and displays the creation timestamp of the alert in a standard readable format
+
+      %p 
+        %strong Updated At:  
+        = @future_message_alert.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        - # Formats and displays the last update timestamp of the alert in a standard readable format
+        
+      .actions  
+        = link_to 'Back', future_message_alerts_path, class: 'btn btn-dark'
+        - # 'Back' button to navigate to the list of all future message alerts. Styled with Bootstrap's 'dark' class.

@@ -1,0 +1,15 @@
+- # This template provides a form to edit management records, specifically to change the supporter assigned to a young person.
+
+%h1 Edit Management Record
+%h2 Edit supporter for #{@young_person.user.name}
+= form_for @young_person_management, url: young_person_management_path(@young_person_management), method: :patch do |f|
+  %div
+    = f.label :supporter_id, "Change Supporter"
+    = f.collection_select :supporter_id, Supporter.includes(:user).all, :user_id, proc { |supporter| supporter.user.name }, { include_blank: true }, { class: "form-control" }
+    = f.hidden_field :young_person_id, value: @young_person.user_id
+  .form-group
+    = f.label :commit, "Commit"
+    = f.text_area :commit, class: "form-control", rows: 5
+
+  %div.actions
+    = f.submit "Update", class: "btn btn-primary"

@@ -1,0 +1,15 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Manage Members for #{@bubble.name}
+
+  = form_with model: @bubble, url: update_members_bubble_path(@bubble), method: :patch do |f|
+    - if @members.present?
+      %ul
+        - @members.each do |member|
+          %li
+            = check_box_tag "bubble[member_ids][]", member.id, @bubble.members.include?(member)
+            = label_tag "bubble_member_#{member.id}", member.name
+    - else
+      %p No members available.
+    = f.submit 'Update Members', class: 'btn btn-success'
+    = link_to 'Back', bubbles_path, class: 'btn btn-secondary'

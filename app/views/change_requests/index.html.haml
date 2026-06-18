@@ -1,0 +1,24 @@
+-# This section of the code displays a list of change requests within a card structure
+.card
+  .card-header.d-flex.align-items-center
+    %span Change Requests
+
+  - if @change_requests.any?
+    %table.table
+      %thead
+        %tr
+          %th Question
+          %th Content
+          %th Created At
+      %tbody
+        - @change_requests.each do |change_request|
+          %tr
+            %td= change_request.question.content
+            %td= change_request.content
+            %td= change_request.created_at.strftime("%Y-%m-%d %H:%M")
+            %td
+              .btn-toolbar.float-end
+                = link_to 'Show', change_request_path(change_request), class: 'btn btn-outline-info'
+                = link_to 'Delete', question_change_request_path(change_request.question, change_request), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger'
+  - else
+    %p No change requests found.

@@ -1,0 +1,51 @@
+-# This section of code displays a table of users with various attributes and actions that can be performed based on the user's role and status.
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Users
+
+  = form_tag users_path, method: :get do
+    = label_tag :supporter_id, 'Filter by Supporter'
+    = select_tag :supporter_id, options_from_collection_for_select(Supporter.includes(:user).all, "user_id", ->(supporter) { supporter.user.name }, params[:supporter_id]), prompt: 'Select a Supporter'
+    = submit_tag 'Filter'
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Role
+        %th Created At
+        %th Status
+        %th Actions
+
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.name
+          %td= user.email
+          %td= user.role
+          %td= user.created_at.strftime("%Y-%m-%d")
+          %td
+            - if user.role == 'young_person' && YoungPerson.find_by(user_id: user.id).present?
+              - if user.young_person.passed_away? 
+                %span.passed-away Dead
+              - else
+                %span.alive Alive
+            - elsif user.role == 'supporter' && Supporter.find_by(user_id: user.id).present?
+              - if Supporter.find_by(user_id: user.id).active?
+                %span.active Active
+              - else
+                %span.unactive Unactive
+          %td
+            .btn-toolbar.float-end
+            = link_to 'Show', user, class: 'btn btn-outline-info btn-sm'
+            = link_to 'Edit', edit_user_path(user), class: 'btn btn-outline-secondary'
+            - if user.role == 'supporter' && Supporter.find_by(user_id: user.id).present?
+              - if Supporter.find_by(user_id: user.id).active?
+                = link_to 'Deactive', make_supporter_unactive_user_path(user), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger'
+              - else
+                = link_to 'Activate', make_supporter_active_user_path(user), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-success'
+            - if user.role == 'young_person' && YoungPerson.find_by(user_id: user.id).present?
+              = link_to 'Assign Supporter', new_young_person_management_path(user_id: user.id), class: 'btn btn-outline-danger'
+              

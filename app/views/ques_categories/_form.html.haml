@@ -1,0 +1,10 @@
+-# frozen_string_literal: true
+= simple_form_for(@ques_category) do |f|
+  .card-body
+    = f.input :name, wrapper_html: { class: 'mb-3' }
+    = f.input :active, as: :boolean, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-success{ type: 'submit' }
+      Save
+    = link_to 'Back', ques_categories_path, class: 'btn btn-dark ms-auto'

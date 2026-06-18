@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{charset: "UTF-8"}
+    %title You are Invited!
+  %body
+    %h1 Hello!
+    %p
+      You have been invited by
+      = @user.email
+      to join our platform.
+    %p
+      %strong Message:
+      = @message
+    %p To accept the invitation, please use the following token:
+    %p
+      %strong Token:
+      = @token
+    %p Thank you for joining us!

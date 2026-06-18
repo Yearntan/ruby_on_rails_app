@@ -1,0 +1,18 @@
+- # This view template is used for creating a new future message within the application.
+- # It features a form that users can fill out to schedule and define the content of a message.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header New Future Message
+      = simple_form_for(@future_message) do |f|
+        .card-body
+          = f.input :content, wrapper_html: { class: 'mb-3' }, label: "Future message"
+          = f.input :published_at, as: :datetime, wrapper_html: { class: 'mb-3' }, label: "When to publish ?"
+
+          .card-footer.d-flex
+            %button.btn.btn-primary{ type: 'submit' }
+              Save
+            = link_to 'Back', future_messages_path, class: 'btn btn-link ms-auto'
+
+
+              

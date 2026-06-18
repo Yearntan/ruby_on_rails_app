@@ -1,0 +1,62 @@
+- # Form for editing user details using form_with helper. Includes client-side validation.
+
+= form_with(model: @user, local: true, class: "needs-validation") do |form|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |message|
+          %li= message
+  .row.justify-content-center
+    .col-sm-8.col-lg-6
+      .card
+        .card-header Editing Details
+        .mb-3
+          = form.label :name, class: "form-label"
+          = form.text_field :name, class: "form-control"
+
+        .mb-3
+          = form.label :email, class: "form-label"
+          = form.text_field :email, class: "form-control"
+
+
+        .mb-3
+          = form.label :password, class: "form-label"
+          = form.password_field :password, class: "form-control"
+
+        .mb-3
+          = form.label :pronouns, class: "form-label"
+          = form.text_field :pronouns, class: "form-control"
+
+        .role-status-fields
+          .field.hidden
+            = form.hidden_field :role, value: @user.role
+
+          .field.hidden
+            = form.hidden_field :status, value: @user.status
+
+        .actions
+          = form.submit class: "btn btn-primary me-2"
+          - if current_user && current_user.role == 'admin'
+            = link_to 'Back', users_path, class: "btn btn-dark"
+          - elsif current_user && current_user.role == 'young_person'
+            = link_to 'Back', questions_path, class: "btn btn-darky"
+          - elsif current_user && current_user.role == 'supporter'
+            = link_to 'Back', young_person_managements_path, class: "btn btn-dark"
+          - else
+            = link_to 'Back', answers_path, class: "btn btn-dark"
+
+:javascript
+  ;(function() {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function(form) {
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()

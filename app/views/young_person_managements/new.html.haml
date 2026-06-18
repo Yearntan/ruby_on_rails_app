@@ -1,0 +1,21 @@
+- # This section sets up a form within a card to create a new management record for a young person by assigning a supporter.
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header New Management Record
+      %h4 Assign supporter for #{@young_person&.user&.name}
+      = form_for @young_person_management, url: young_person_managements_path, html: { class: "form" } do |f|
+        .form-group
+          = f.label :supporter_id, "Select Supporter"
+          = f.collection_select :supporter_id, @supporters, :user_id, proc { |supporter| supporter.user&.name }, { include_blank: true }, { class: "form-control", required: true }
+          = f.hidden_field :young_person_id, value: @young_person&.user_id
+
+
+        .form-group
+          = f.label :commit, "Commit"
+          = f.text_area :commit, class: "form-control", rows: 5
+
+        .actions
+          = f.submit "Create", class: "btn btn-success"
+          = link_to 'Back', users_path, class: 'btn btn-dark ms-auto'

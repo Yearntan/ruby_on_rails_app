@@ -1,0 +1,142 @@
+@import "~bootstrap/scss/functions";
+// Variables defining primary colors and styles
+$body-bg: rgb(255, 255, 255); // Background color for the body
+$header-bg: Blue; // Background color for the header
+$bd-violet: purple; // Custom violet color used for branding
+
+// Primary button styling using Bootstrap and custom color
+.btn-bd-primary {
+    --bs-btn-font-weight: 600; // Bold font weight for button text
+    --bs-btn-color: var(--bs-white); // White text color
+    --bs-btn-bg: var(--bd-violet); // Background color from variable
+    --bs-btn-border-color: var(--bd-violet); // Border color matching background
+    --bs-btn-border-radius: .5rem; // Rounded corners for the button
+    --bs-btn-hover-color: var(--bs-white); // White text color on hover
+    --bs-btn-hover-bg: #{shade-color($bd-violet, 10%)}; // Darkened background on hover
+    --bs-btn-hover-border-color: #{shade-color($bd-violet, 10%)}; // Border color on hover
+    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb); // Focus shadow color
+    --bs-btn-active-color: var(--bs-btn-hover-color); // Active state text color
+    --bs-btn-active-bg: #{shade-color($bd-violet, 20%)}; // Active state background color
+    --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)}; // Active state border color
+}
+
+// Styling for flash messages with positioning and sizing
+.flash-messages {
+    z-index: 1050; // Ensure it is on top of other content
+    right: 20px; // Positioned towards the right
+    top: 20px; // Positioned at the top
+    width: auto; // Width based on content
+    max-width: 300px; // Max width limit
+}
+
+// Semi-transparent overlay effect for backgrounds
+.semi-transparent {
+    position: relative;
+    color: black; 
+    margin-bottom: 4rem; // Margin to separate from content below
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.5); // Semi-transparent white
+        opacity: 0.2; // Additional transparency
+        z-index: -1; // Behind the content
+    }
+}
+
+// Styling for elements with opaque text on a transparent background
+.text-opaque {
+    position: relative;
+    z-index: 2; // Ensures text appears on top
+}
+
+// Styling for a floating action button with a hover effect
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #ef9a22; // Orange color for visibility
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: opacity 0.3s ease-in-out; // Smooth transition for hover
+    opacity: 0.8; // Default low opacity
+    &:hover {
+        opacity: 1; // Full opacity on hover
+    }
+}
+
+// Navbar customization removing default margins and padding
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: #d0e6daee; // Custom light green background
+    color: #D8CAB8; // Light beige text
+    padding: 15px;
+}
+
+// Responsive design adjustments for side navigation and content layout
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+    .row.content {height:auto;} 
+}
+
+// Additional navbar styling for brand image within the navbar
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    .logo-img {
+        max-height: 100%; // Ensure logo fits within navbar
+        width: auto; // Maintain aspect ratio
+    }
+}
+
+// Utility styles for specific layout adjustments
+.navbar-no-margin-padding, .no-margin {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    padding-top: 0 !important;
+}
+
+// Main body layout padding adjustments for specific pages
+.main_body_layout{
+    padding-left: 0%;
+    padding-right: 0%;
+    padding-top: 8rem !important;
+    padding-bottom: 8rem !important;
+}
+
+// Custom logout link styling
+.nav-logout, .custom-logout {
+    color: black;
+    margin-left: auto;
+    text-decoration: none; // Removes underline
+    &:hover {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+    }
+}
+
+// Generic margins for consistent spacing in layout
+.some-margins{
+    margin-left: 4rem !important;
+    margin-right: 4rem !important;
+    padding: 4rem;
+}
+
+ // Icon spacing for elements within buttons or links
+.icon-spacing {
+  margin: 0 10px; // Adjust space between icons
+}
+
+  
+@import "~bootstrap/scss/variables";

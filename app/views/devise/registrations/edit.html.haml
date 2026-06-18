@@ -1,0 +1,30 @@
+- # Edit details form
+%h2 Edit #{resource_name.to_s.humanize} Profile
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = devise_error_messages!
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name, autofocus: true
+  .field
+    = f.label :email
+    %br/
+    = f.email_field :email
+  .field
+    = f.label :pronouns
+    %br/
+    = f.text_field :pronouns
+  .field
+    = f.label :password
+    %br/
+    = f.password_field :password, autocomplete: "new-password"
+  .field
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation, autocomplete: "new-password"
+  .field
+    = f.label :current_password
+    %br/
+    = f.password_field :current_password, autocomplete: "current-password"
+  .actions
+    = f.submit "Update"

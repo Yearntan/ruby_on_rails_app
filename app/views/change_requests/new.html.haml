@@ -1,0 +1,15 @@
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Request Details
+      = simple_form_for [@question, @change_request] do |f|
+        = f.error_notification
+
+        .form-inputs
+          = f.input :content, as: :text, required: true, label: 'Describe your change request:', input_html: { rows: 4 }
+
+        .form-actions
+          = f.button :submit, 'Submit Request', class: 'btn btn-success'
+          = link_to 'Back', questions_path, class: 'btn btn-dark ms-auto'
+ 

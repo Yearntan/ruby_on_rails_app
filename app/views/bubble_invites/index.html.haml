@@ -1,0 +1,14 @@
+-# app/views/bubble_invites/index.html.haml
+
+%h1 Your Invitations
+
+- @invites.each do |invite|
+  .invite
+    %p
+      Invitation to join
+      = invite.bubbles.map(&:name).join(", ")
+    %p
+      From:
+      = invite.young_person.user.name
+    = link_to 'Accept', accept_bubble_invite_path(invite), method: :patch, class: 'btn btn-success'
+    = link_to 'Reject', reject_bubble_invite_path(invite), method: :patch, class: 'btn btn-danger'

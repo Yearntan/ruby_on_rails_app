@@ -1,0 +1,59 @@
+- # This view template facilitates sending invitations with different privileges based on the current user's role.
+- # It allows admin, supporter, and young person roles to send customized invites to others with specific roles.
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Send an Invite
+      - if current_user.admin?
+        = form_for @invite, url: invites_path do |f|
+          .field
+            = f.label :email, "Email of the invitee"
+            = f.email_field :email
+
+          .field
+            = f.label :role, "Select role for the invitee"
+            = f.select :role, options_for_select(['admin', 'supporter']), {}, {class: "select"}
+
+          .field
+            = f.label :message, "Custom message (optional)"
+            = f.text_area :message
+
+          .actions
+            = f.submit "Send Invite"
+
+      - elsif current_user.supporter?
+        = form_for @invite, url: invites_path do |f|
+          .field
+            = f.label :email, "Email of the young person"
+            = f.email_field :email
+
+          %input{type: "hidden", name: "invite[role]", value: "young_person"}
+
+          .field
+            = f.label :message, "Custom message (optional)"
+            = f.text_area :message
+
+          .actions
+            = f.submit "Send Invite"
+
+      - elsif current_user.young_person?
+        = form_for @invite, url: invites_path do |f|
+          .field
+            = f.label :email, "Email of the loved one"
+            = f.email_field :email
+
+          .field
+            = f.label :message, "Custom message (optional)"
+            = f.text_area :message
+
+          %input{type: "hidden", name: "invite[role]", value: "loved_one"}
+
+          -# .field
+          -#   = f.label :message, "Custom message (optional)"
+          -#   = f.text_area :message
+
+          .actions
+            = f.submit "Send Invite"
+
+      - else
+        %p You are not authorized to send invites.

@@ -1,0 +1,24 @@
+- #Layout for a responsive, centered card displaying detailed information about a specific bubble
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header Bubble Details
+      %p
+        %strong Name:
+        = @bubble.name 
+      %p
+        %strong Total Members:
+        = @bubble.members.count
+      %h3 Members
+      %ul
+        - @bubble.members.each do |member|
+          %li= member.name
+
+
+      %h2 Description
+      %textarea{ readonly: true, style: 'width: 100%; height: 200px; background-color: transparent;' }
+        = @bubble.content
+
+      .form-actions 
+        = link_to 'Edit', edit_bubble_path(@bubble), class: 'btn btn-secondary'
+        = link_to 'Back', bubbles_path, class: 'btn btn-dark'

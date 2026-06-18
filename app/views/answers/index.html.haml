@@ -1,0 +1,36 @@
+- # Layout for displaying a list of answers within a card component
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Answers
+
+  %table.table
+    %thead
+      %tr
+        %th Question
+        %th Answer
+        - if current_user.admin?
+          %th User Email
+        - if current_user.loved_one?
+          %th User Name
+        %th Actions
+    %tbody
+      - @answers.each do |answer|
+        %tr
+          %td= answer.question.try(:content) || 'No question'
+          %td= answer.content
+          - if current_user.admin?
+            %td= User.find_by(id: answer.user_id ).email
+          - if current_user.loved_one?
+            %td= User.find_by(id: answer.user_id ).name
+          %td
+            .btn-toolbar
+              = link_to 'Show', [answer.question, answer], class: 'btn btn-outline-info btn-sm'
+              - if current_user && current_user.role == 'admin'
+                - if not answer.has_active_alert?
+                  = link_to 'Create Alert', new_answer_alert_path(answer_id: answer.id), class: 'btn btn-outline-warning ms-1 btn-sm'
+              - if current_user.role == 'young_person'
+                = link_to 'Edit', edit_question_answer_path(answer.question, answer), class: 'btn btn-outline-secondary ms-1 btn-sm'
+                = link_to 'Destroy', [answer.question, answer], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+  .form-actions
+    - if current_user && current_user.role == 'supporter'
+      = link_to 'Back', young_person_managements_path, class: 'btn btn-dark ms-1 btn-sm'
